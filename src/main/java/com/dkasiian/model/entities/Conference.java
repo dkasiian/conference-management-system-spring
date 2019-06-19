@@ -31,7 +31,6 @@ public class Conference {
     @Column(name = "conference_datetime")
     @NotNull(message = "*Please provide date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-//    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}")
     private LocalDateTime datetime;
 
     @Column(name = "conference_location")

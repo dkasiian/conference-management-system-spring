@@ -31,7 +31,6 @@ public class Report {
     @Column(name = "report_datetime")
     @NotNull(message = "*Please provide date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-//    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}")
     private LocalDateTime datetime;
 
     @Column(name = "speaker_id")

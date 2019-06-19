@@ -15,8 +15,8 @@ import java.util.Optional;
 @Service
 public class UserServiceIml implements UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceIml(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {

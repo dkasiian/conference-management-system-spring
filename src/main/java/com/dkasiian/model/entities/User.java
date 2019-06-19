@@ -46,7 +46,6 @@ public class User {
     private String email;
 
     @Column(name = "user_role")
-//    @NotEmpty(message = "*Please provide your role")
     @NotNull(message = "*Please provide your role")
     @Enumerated(value = EnumType.STRING)
     private Role role;

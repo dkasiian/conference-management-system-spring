@@ -59,8 +59,6 @@ public class ConferenceRestController {
                 .map(oldConference -> new ResponseEntity<>(
                         conferenceService.updateConference(oldConference, conference), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        return new ResponseEntity<>(conferenceService.updateConference(conference), HttpStatus.OK);
     }
 
     @ApiOperation("Get a conference by Id")
@@ -69,9 +67,6 @@ public class ConferenceRestController {
         return conferenceService.getConferenceById(conferenceId)
                 .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-        //        return conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId);
     }
 
     @PreAuthorize("hasAuthority(T(com.dkasiian.model.entities.Role).ADMIN)")
@@ -84,11 +79,6 @@ public class ConferenceRestController {
                     return new ResponseEntity(HttpStatus.NO_CONTENT);
                 })
                 .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST));
-
-
-//        conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        conferenceService.deleteConferenceById(conferenceId);
     }
 
 
@@ -100,10 +90,6 @@ public class ConferenceRestController {
         return conferenceService.getConferenceById(conferenceId)
                 .map(value -> new ResponseEntity<>(value.getReports(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        return conference.getReports();
     }
 
     @PreAuthorize("hasAnyAuthority(T(com.dkasiian.model.entities.Role).SPEAKER," +
@@ -112,8 +98,7 @@ public class ConferenceRestController {
     @PostMapping("{conferenceId}/reports")
     public ResponseEntity<Report> addReportToConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @Valid @RequestBody Report report
-    ){
+            @Valid @RequestBody Report report){
         return conferenceService.getConferenceById(conferenceId)
                 .map(value -> {
                     if (CollectionUtils.isEmpty(value.getReports()))
@@ -123,25 +108,13 @@ public class ConferenceRestController {
                     return new ResponseEntity<>(reportService.saveReport(report), HttpStatus.CREATED);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//
-//        if (conference.getReports() != null)
-//            conference.getReports().add(report);
-//        else
-//            conference.setReports(new HashSet<Report>(){ { add(report); } });
-//
-//        return reportService.saveReport(report);
     }
 
     @ApiOperation("Get the specified report from the specified conference")
     @GetMapping("{conferenceId}/reports/{reportId}")
     public ResponseEntity<Report> getReportFromSpecifiedConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @PathVariable("reportId") Long reportId
-    ){
+            @PathVariable("reportId") Long reportId){
         AtomicReference<Optional<ResponseEntity<Report>>> response = new AtomicReference<>(Optional.empty());
         conferenceService.getConferenceById(conferenceId).ifPresent(
                 conference -> reportService.getReportById(reportId).ifPresent(
@@ -152,15 +125,6 @@ public class ConferenceRestController {
                 )
         );
         return response.get().orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        Report report = reportService.getReportById(reportId)
-//                .orElseThrow(() -> new NotFoundException("Report not found for this id :: " + reportId));
-//        if (!conference.getReports().contains(report))
-//            throw new NotFoundException("The specified report with id :: " + reportId +
-//                    " is not on the conference with id :: " + conferenceId);
-//        return report;
     }
 
     @PreAuthorize("hasAnyAuthority(T(com.dkasiian.model.entities.Role).SPEAKER," +
@@ -169,8 +133,7 @@ public class ConferenceRestController {
     @DeleteMapping("{conferenceId}/reports/{reportId}")
     public ResponseEntity deleteReportFromSpecifiedConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @PathVariable("reportId") Long reportId
-    ){
+            @PathVariable("reportId") Long reportId){
         return conferenceService.getConferenceById(conferenceId)
                 .map(conference -> reportService.getReportById(reportId)
                         .map(report -> {
@@ -183,17 +146,6 @@ public class ConferenceRestController {
                         .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST))
                 )
                 .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        Report report = reportService.getReportById(reportId)
-//                .orElseThrow(() -> new NotFoundException("Report not found for this id :: " + reportId));
-//
-//        if (!conference.getReports().contains(report))
-//            throw new NotFoundException("The specified report with id :: " + reportId +
-//                    " is not on the conference with id :: " + conferenceId);
-//
-//        conferenceService.deleteReportFromSpecifiedConference(reportId, conferenceId);
     }
 
 
@@ -202,15 +154,10 @@ public class ConferenceRestController {
     @ApiOperation("Get all subscribers (listeners) from the specified conference")
     @GetMapping("{conferenceId}/users")
     public ResponseEntity<Set<User>> getAllListenersFromSpecifiedConference(
-            @PathVariable("conferenceId") Long conferenceId
-    ){
+            @PathVariable("conferenceId") Long conferenceId){
         return conferenceService.getConferenceById(conferenceId)
                 .map(value -> new ResponseEntity<>(value.getListeners(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        return conference.getListeners();
     }
 
     @PreAuthorize("hasAuthority(T(com.dkasiian.model.entities.Role).ADMIN)")
@@ -218,8 +165,7 @@ public class ConferenceRestController {
     @GetMapping("{conferenceId}/users/{userId}")
     public ResponseEntity<User> getListenerFromSpecifiedConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @PathVariable("userId") Long userId
-    ){
+            @PathVariable("userId") Long userId){
         return conferenceService.getConferenceById(conferenceId)
                 .map(conference -> userService.getUserById(userId)
                         .map(user -> {
@@ -230,35 +176,13 @@ public class ConferenceRestController {
                         .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST))
                 )
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-
-//        AtomicReference<Optional<ResponseEntity<User>>> response = new AtomicReference<>(Optional.empty());
-//        conferenceService.getConferenceById(conferenceId).ifPresent(
-//                conference -> userService.getUserById(userId).ifPresent(
-//                        user -> {
-//                            if (conference.getListeners().contains(user))
-//                                response.set(Optional.of(new ResponseEntity<>(user, HttpStatus.OK)));
-//                        }
-//                )
-//        );
-//        return response.get().orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        User listener = userService.getUserById(userId)
-//                .orElseThrow(() -> new NotFoundException("User not found for this id :: " + userId));
-//        if (!conference.getListeners().contains(listener))
-//            throw new NotFoundException("User with id :: " + userId +
-//                    " isn't subscribed on conference with id :: " + conferenceId);
-//        return listener;
     }
 
     @ApiOperation("Subscribe (register) the specified user (listener) to the specified conference")
     @PostMapping("{conferenceId}/users/{userId}")
     public ResponseEntity subscribeListenerToSpecifiedConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @PathVariable("userId") Long userId
-    ){
+            @PathVariable("userId") Long userId){
         return conferenceService.getConferenceById(conferenceId)
                 .map(conference -> userService.getUserById(userId)
                         .map(user -> {
@@ -270,25 +194,13 @@ public class ConferenceRestController {
                         .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST))
                 )
                 .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        User listener = userService.getUserById(userId)
-//                .orElseThrow(() -> new NotFoundException("User not found for this id :: " + userId));
-//
-//        if (conference.getListeners().contains(listener))
-//            throw new DuplicateSubmitException("User with id :: " + userId +
-//                    " already subscribed on conference with id :: " + conferenceId);
-//
-//        conferenceService.subscribeListenerToSpecifiedConference(userId, conferenceId);
     }
 
     @ApiOperation("Unsubscribe (unregister) the specified user (listener) from the specified conference")
     @DeleteMapping("{conferenceId}/users/{userId}")
     public ResponseEntity unsubscribeListenerFromSpecifiedConference(
             @PathVariable("conferenceId") Long conferenceId,
-            @PathVariable("userId") Long userId
-    ){
+            @PathVariable("userId") Long userId){
         return conferenceService.getConferenceById(conferenceId)
                 .map(conference -> userService.getUserById(userId)
                         .map(user -> {
@@ -300,17 +212,6 @@ public class ConferenceRestController {
                         .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST))
                 )
                 .orElseGet(() -> new ResponseEntity(HttpStatus.BAD_REQUEST));
-
-//        Conference conference = conferenceService.getConferenceById(conferenceId)
-//                .orElseThrow(() -> new NotFoundException("Conference not found for this id :: " + conferenceId));
-//        User listener = userService.getUserById(userId)
-//                .orElseThrow(() -> new NotFoundException("User not found for this id :: " + conferenceId));
-//
-//        if (!conference.getListeners().contains(listener))
-//            throw new NotFoundException("User with id :: " + userId +
-//                    " isn't subscribed on conference with id :: " + conferenceId);
-//
-//        conferenceService.unsubscribeListenerFromSpecifiedConference(userId, conferenceId);
     }
 
     @PreAuthorize("hasAuthority(T(com.dkasiian.model.entities.Role).ADMIN)")

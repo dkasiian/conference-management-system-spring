@@ -1,8 +1,8 @@
 package com.dkasiian.controllers;
 
-import com.dkasiian.security.dto.AuthenticationRequestDto;
 import com.dkasiian.model.entities.User;
 import com.dkasiian.model.services.UserService;
+import com.dkasiian.security.dto.AuthenticationRequestDto;
 import com.dkasiian.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

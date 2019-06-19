@@ -70,8 +70,7 @@ public class UserRestController {
             @PathVariable("userId") Long userId,
             @PathVariable("speakerId") Long speakerId,
             @RequestParam("rating") Double rating,
-            @RequestParam("bonuses") Integer bonuses
-    ){
+            @RequestParam("bonuses") Integer bonuses){
         return userService.getUserById(userId)
                 .map(user -> userService.getSpeakerById(speakerId)
                         .map(speaker -> {
@@ -89,8 +88,7 @@ public class UserRestController {
             @PathVariable("userId") Long userId,
             @PathVariable("speakerId") Long speakerId,
             @RequestParam("rating") Double rating,
-            @RequestParam("bonuses") Integer bonuses
-    ){
+            @RequestParam("bonuses") Integer bonuses){
         return userService.getUserById(userId)
                 .map(user -> userService.getSpeakerById(speakerId)
                         .map(speaker -> {
